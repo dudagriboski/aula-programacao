@@ -1,17 +1,21 @@
 <?php
+$connection = require("dbfactory.php");
 
-$mysqli = new mysqli("localhost", "root", "root", "prog_2");
+return $mysquli;
 
-if($mysqli -> connect_error){
-    echo "Failed to connect to MySQL:".$mysqli -> connect_error;
-    exit();
+
+
+$descricao = $_POST['description'];
+
+//Insert
+if($result - $mysqli ->
+query (@'INSERT INTO  todo (description) VALUES($descricao);')){
+    echo "Return row are:" . $result -> num_rows;
+    //free result
+    //$result -> free_result();
 }
 
-if ($result = $mysqli -> query(@"INSERT INTO todo (idtodo, description) VALUES ((select max(idtodo)+1 from todo),
-                         'fazer ola mundo no php.');")){
-echo "Returned rows are: " . $result -> num_rows;
-$result -> free_result();
-}
+
 
 $mysqli -> close();
 
