@@ -7,12 +7,24 @@
 </head>
 <body>
     <?php
-    $mysqli = new mysqli("localhost", "root", "root", "prog00");
+    $conection = require("dbfactory.php");
+    $sql = "SELECT idtodo, description FROM todo";
+
+    $result = $mysqli->query($sql);
+    echo "<table>";
+    while($row = $result -> fetch_assoc()){
+        printf("%s/n", $row["idtodo"]);
+    echo "<tr>" 
+   . "<td>" .$row["idtodo"]."</td>"
+   . "<td>" .$row["description"]."</td>"
+    ."</tr>";
+    }
+    echo "</table>";
     ?>
     <form action="processar.php" method="post">
         <label for ="todo-description"> Descriçao da tarefa:</label>
-        <Iput name = "description" id="todo-description" type="text">
-            <button type="submit">Enviar<button>
+        <input name = "description" id="todo-description" type="text"/>
+            <button type="submit">Enviar</button>
 
 
 </form>

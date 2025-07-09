@@ -1,22 +1,17 @@
 <?php
 $connection = require("dbfactory.php");
 
-return $mysquli;
+$descricao=$_POST['description'];
 
 
-
-$descricao = $_POST['description'];
-
-//Insert
-if($result - $mysqli ->
-query (@'INSERT INTO  todo (description) VALUES($descricao);')){
-    echo "Return row are:" . $result -> num_rows;
-    //free result
-    //$result -> free_result();
+if($result=$connection->query("INSERT INTO todo (description) VALUES ('$descricao')")){
+    echo"inserido com sucesso";
 }
 
 
-
-$mysqli -> close();
+if($result=$connection->query("SELECT * FROM todo")){
+        echo "returned rows are:" .$result -> num_rows;
+}
+$connection -> close();
 
 ?>
