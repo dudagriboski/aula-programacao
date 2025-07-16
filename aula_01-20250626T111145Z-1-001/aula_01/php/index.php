@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro de Pessoa</title>
 </head>
 <body>
-    <?php
-    $conection = require("dbfactory.php");
-    $sql = "SELECT idtodo, description FROM todo";
+    <h1>Cadastrar Pessoa</h1>
+    <form method="post" action="processar.php">
+        <label for="nome">Nome:</label>
+        <input name="nome" id="nome" type="text" required><br><br>
 
-    $result = $mysqli->query($sql);
-    echo "<table>";
-    while($row = $result -> fetch_assoc()){
-        printf("%s/n", $row["idtodo"]);
-    echo "<tr>" 
-   . "<td>" .$row["idtodo"]."</td>"
-   . "<td>" .$row["description"]."</td>"
-    ."</tr>";
-    }
-    echo "</table>";
-    ?>
-    <form action="processar.php" method="post">
-        <label for ="todo-description"> Descriçao da tarefa:</label>
-        <input name = "description" id="todo-description" type="text"/>
-            <button type="submit">Enviar</button>
+        <label for="cpf">CPF:</label>
+        <input name="cpf" id="cpf" type="text" required><br><br>
 
+        <label for="endereco">Endereço:</label>
+        <input name="endereco" id="endereco" type="text" required><br><br>
 
-</form>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <br><br>
+    <a href="processar.php">Ver lista de pessoas cadastradas</a>
 </body>
 </html>
