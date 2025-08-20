@@ -1,9 +1,4 @@
 <?php
-// Ativa a exibição de erros para facilitar a depuração
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-// Função para inserir pessoa no banco de dados
 function Salvar($nome, $cpf, $endereco){
     $connection = require("dbfactory.php");
     $stmt = $connection->prepare("INSERT INTO pessoa (nome, cpf, endereco) VALUES (?, ?, ?)");
@@ -18,15 +13,14 @@ function Salvar($nome, $cpf, $endereco){
     $stmt->close();
     $connection->close();
 }
-
-// Função para recuperar e exibir as pessoas do banco de dados
 function Recuperar(){
     $connection = require("dbfactory.php");
     $sql = "SELECT idpessoa, nome, cpf, endereco FROM pessoa";
     $result = $connection->query($sql);
 
-    echo "<table border='1'>";
-    echo "<tr><th>Nome</th><th>CPF</th><th>Endereço</th><th>Ações</th></tr>";
+    echo "<table>";
+    echo "<thead><tr><th>Nome</th><th>CPF</th><th>Endereço</th><th>Ações</th></tr></thead>";
+    echo "<tbody>";
 
     while ($row = $result->fetch_assoc()) {
         $rowid = $row["idpessoa"];
@@ -44,28 +38,40 @@ function Recuperar(){
                 . "</td>"                                            
             . "</tr>";
     }
+    echo "</tbody>";
     echo "</table>";
 
     $connection->close();
 }
+function Atualizar($id, $nome, $cpf, $endereco){
+    $connection = require("dbfactory.php");
+    $stmt = $connection->prepare("UPDATE pessoa SET nome = ?, cpf = ?, endereco = ? WHERE idpessoa = ?");
+    $stmt->bind_param("sssi", $nome, $cpf, $endereco, $id);
 
-// Verifica se o formulário foi enviado via POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
-    $nome = htmlspecialchars($_POST['nome']);
-    $cpf = htmlspecialchars($_POST['cpf']);
-    $endereco = htmlspecialchars($_POST['endereco']);
-
-    // Verifica se os campos não estão vazios
-    if (!empty($nome) && !empty($cpf) && !empty($endereco)) {
-        // Chama a função para salvar os dados no banco
-        Salvar($nome, $cpf, $endereco);
+    if ($stmt->execute()) {
+        echo "Pessoa atualizada com sucesso.";
     } else {
-        echo "Por favor, preencha todos os campos.";
+        echo "Erro ao atualizar pessoa.";
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nome = htmlspecialchars($_POST['nome']);
+        $cpf = htmlspecialchars($_POST['cpf']);
+        $endereco = htmlspecialchars($_POST['endereco']);
+        Atualizar($id, $nome, $cpf, $endereco);
+    } else {
+        $nome = htmlspecialchars($_POST['nome']);
+        $cpf = htmlspecialchars($_POST['cpf']);
+        $endereco = htmlspecialchars($_POST['endereco']);
+        Salvar($nome, $cpf, $endereco);
     }
 }
 
-// Após a submissão do formulário ou carregamento da página, exibe a lista de pessoas cadastradas
 Recuperar();
 ?>
 
@@ -75,11 +81,11 @@ Recuperar();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Pessoa</title>
+    
 </head>
 <body>
     <h1>Cadastro de Pessoa</h1>
-    
-    <!-- Formulário de cadastro -->
+
     <form method="post">
         <label for="nome">Nome:</label>
         <input name="nome" id="nome" type="text" required>
@@ -97,10 +103,7 @@ Recuperar();
 
     <h2>Lista de Pessoas Cadastradas</h2>
 
-    <!-- Aqui, a tabela será gerada automaticamente a partir da função Recuperar() -->
-
     <script>
-        // Função para remover pessoa
         function removerPessoa(id) {
             if (confirm('Tem certeza que deseja excluir essa pessoa?')) {
                 fetch(`/script.php?id=${id}`, {
@@ -109,19 +112,17 @@ Recuperar();
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    document.getElementById(`pessoa_${id}`).remove();  // Remove a linha da tabela
+                    document.getElementById(`pessoa_${id}`).remove(); 
                 })
                 .catch(error => console.error('Erro ao excluir:', error));
             }
         }
 
-        // Função para atualizar pessoa
         function atualizarPessoa(id) {
             const nome = document.querySelector(`#pessoa_${id} .valor-nome`).value;
             const cpf = document.querySelector(`#pessoa_${id} .valor-cpf`).value;
             const endereco = document.querySelector(`#pessoa_${id} .valor-endereco`).value;
-
-            fetch(`/script.php`, {
+            fetch('/index.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -130,7 +131,9 @@ Recuperar();
             })
             .then(response => response.text())
             .then(data => {
+                alert('Pessoa atualizada com sucesso!');
                 console.log(data);
+                location.reload();  
             })
             .catch(error => console.error('Erro ao atualizar:', error));
         }
