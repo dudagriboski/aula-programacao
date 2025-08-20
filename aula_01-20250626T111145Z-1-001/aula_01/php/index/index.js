@@ -1,9 +1,9 @@
-// REMOVER PESSOA
+
 async function removerPessoa(elemento) {    
     var elementoRemover = document.querySelector("#" + elemento);
     elementoRemover.remove();    
 
-    // idpessoa vem do id do elemento (tirando o prefixo, ex: "p1" -> 1)
+  
     await removerBanco(elemento.substring(1, elemento.length));    
     console.log("Removido ID:", elemento);
 }
@@ -27,11 +27,11 @@ async function removerBanco(idPessoa) {
 }
 
 
-// ATUALIZAR PESSOA
+
 async function atualizarPessoa(elemento) {
     var elementoAtualizar = document.querySelector("#" + elemento);
 
-    // Pegando os valores dos inputs
+   
     var nome     = elementoAtualizar.querySelector(".valor-nome").value;
     var cpf      = elementoAtualizar.querySelector(".valor-cpf").value;
     var endereco = elementoAtualizar.querySelector(".valor-endereco").value;
@@ -39,7 +39,7 @@ async function atualizarPessoa(elemento) {
     console.log("Atualizando:", nome, cpf, endereco);
 
     await atualizarBanco(
-        elemento.substring(1, elemento.length), // idpessoa
+        elemento.substring(1, elemento.length),
         nome,
         cpf,
         endereco

@@ -42,7 +42,7 @@
             $connection->close();
         }
 
-        // POST -> insere
+     
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nome = htmlspecialchars($_POST['nome']); 
             $cpf = htmlspecialchars($_POST['cpf']); 
@@ -54,12 +54,11 @@
             Recuperar();           
         }
 
-        // GET -> lista
+      
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             Recuperar();        
         }
 
-        // DELETE -> remover
         if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $idRemover = $_GET['id']; 
             echo "Pegou para remover: ". $idRemover;           

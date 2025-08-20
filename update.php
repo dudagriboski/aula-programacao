@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {   
     $connection = require("dbfactory.php");
 
-    // Captura os dados enviados via PUT e transforma em objeto
+   
     $putData = json_decode(file_get_contents('php://input', true));
 
     $id = $putData->id ?? null;
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $endereco = $putData->endereco ?? '';
 
     if ($id) {
-        // Query de atualização
+  
         $sql = "UPDATE pessoa SET nome = '$nome', cpf = '$cpf', endereco = '$endereco' WHERE idpessoa = $id";
 
         if ($connection->query($sql)) {
