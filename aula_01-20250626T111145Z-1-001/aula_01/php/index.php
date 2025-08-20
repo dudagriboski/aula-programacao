@@ -1,10 +1,18 @@
 <?php
+<<<<<<< HEAD
 
 function Salvar($nome, $cpf, $endereco){
     $connection = require("dbfactory.php");
     $stmt = $connection->prepare("INSERT INTO pessoa (nome, cpf, endereco) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $nome, $cpf, $endereco);
 
+=======
+function Salvar($nome, $cpf, $endereco){
+    $connection = require("dbfactory.php");
+    $stmt = $connection->prepare("INSERT INTO pessoa (nome, cpf, endereco) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $nome, $cpf, $endereco);
+
+>>>>>>> b57e35d342e0d8bc47c5dab9f4f796c219437322
     if ($stmt->execute()) {
         echo "Pessoa inserida com sucesso.";
     } else {
@@ -14,8 +22,11 @@ function Salvar($nome, $cpf, $endereco){
     $stmt->close();
     $connection->close();
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b57e35d342e0d8bc47c5dab9f4f796c219437322
 function Recuperar(){
     $connection = require("dbfactory.php");
     $sql = "SELECT idpessoa, nome, cpf, endereco FROM pessoa";
@@ -46,7 +57,12 @@ function Recuperar(){
 
     $connection->close();
 }
+function Atualizar($id, $nome, $cpf, $endereco){
+    $connection = require("dbfactory.php");
+    $stmt = $connection->prepare("UPDATE pessoa SET nome = ?, cpf = ?, endereco = ? WHERE idpessoa = ?");
+    $stmt->bind_param("sssi", $nome, $cpf, $endereco, $id);
 
+<<<<<<< HEAD
 
 function Atualizar($id, $nome, $cpf, $endereco){
     $connection = require("dbfactory.php");
@@ -68,20 +84,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['id'])) {
     
+=======
+    if ($stmt->execute()) {
+        echo "Pessoa atualizada com sucesso.";
+    } else {
+        echo "Erro ao atualizar pessoa.";
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['id'])) {
+>>>>>>> b57e35d342e0d8bc47c5dab9f4f796c219437322
         $id = $_POST['id'];
         $nome = htmlspecialchars($_POST['nome']);
         $cpf = htmlspecialchars($_POST['cpf']);
         $endereco = htmlspecialchars($_POST['endereco']);
         Atualizar($id, $nome, $cpf, $endereco);
     } else {
+<<<<<<< HEAD
        
+=======
+>>>>>>> b57e35d342e0d8bc47c5dab9f4f796c219437322
         $nome = htmlspecialchars($_POST['nome']);
         $cpf = htmlspecialchars($_POST['cpf']);
         $endereco = htmlspecialchars($_POST['endereco']);
         Salvar($nome, $cpf, $endereco);
     }
 }
-
 
 Recuperar();
 ?>
@@ -133,8 +164,11 @@ Recuperar();
             const nome = document.querySelector(`#pessoa_${id} .valor-nome`).value;
             const cpf = document.querySelector(`#pessoa_${id} .valor-cpf`).value;
             const endereco = document.querySelector(`#pessoa_${id} .valor-endereco`).value;
+<<<<<<< HEAD
 
             
+=======
+>>>>>>> b57e35d342e0d8bc47c5dab9f4f796c219437322
             fetch('/index.php', {
                 method: 'POST',
                 headers: {
